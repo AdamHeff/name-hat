@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Name Hat</title>
+  </head>
+  <body>
+    <p>Put some instructions here.</p>
+ 
+    <div id="families"></div>
+    
+    <button onclick="addFamily()">Add family</button>
+    
+    <script>
+    function addFamily() {
+      var familyRow = document.createElement('div');
+      var textBox = document.createElement('input');
+      textBox.type = "text";
+      familyRow.appendChild(textBox);
+      document.getElementById('families').appendChild(familyRow);
+    }
+    </script>
+  </body>
+</html>
