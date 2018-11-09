@@ -1,5 +1,5 @@
 var allPeople;
 
-function calculate() {
-    alert("here")
+function calculate(families) {
+    alert("calculate: " + families);
 }

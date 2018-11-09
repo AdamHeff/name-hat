@@ -8,12 +8,30 @@
     <p>Enter names from the same family on a single line, separated by a comma.</p>
     <p>Enter each family on its own line, separated by a carriage return.</p>
 
-    <form onsubmit="calculate()">
-      <textarea name="names" rows="10" cols="125">Adam Heffelbwer, Mary Heffelbower, Sophia Heffelbower&#13;&#10;Lindsay Finneman, Jeremy Finneman</textarea>
+    <form onsubmit="calculateWrapper()">
+      <textarea id="names" rows="10" cols="125">Adam Heffelbwer, Mary Heffelbower, Sophia Heffelbower&#13;&#10;Lindsay Finneman, Jeremy Finneman</textarea>
       <br>
       <input type="submit" value="Calculate">
     </form>
         
     <script type="text/javascript" src="calculate.js"></script>
+
+    <script type="text/javascript">
+    
+    function calculateWrapper() {
+      var names = document.getElementById("names").value;
+      var famBlobs = names.split("\n");
+      var families = new Array();
+      famBlobs.forEach(famBlob => {
+        //alert("famBlob: " + famBlob);
+        var fam = famBlob.split(",");
+        //alert("family: " + fam + " count: " + fam.length);
+        families.push(fam);
+        //alert("families: " + families + " count: " + families.length);
+      });
+      calculate(families);
+    }
+    
+    </script>
   </body>
 </html>
