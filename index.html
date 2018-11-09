@@ -5,22 +5,15 @@
     <title>Name Hat</title>
   </head>
   <body>
-    <p>Put some instructions here.</p>
- 
-    <div id="families"></div>
-    
-    <button onclick="addFamily()">Add row</button>
-    <button onclick="calculate()">Calculate</button>
-    
+    <p>Enter names from the same family on a single line, separated by a comma.</p>
+    <p>Enter each family on its own line, separated by a carriage return.</p>
+
+    <form onsubmit="calculate()">
+      <textarea name="names" rows="10" cols="125">Adam Heffelbwer, Mary Heffelbower, Sophia Heffelbower&#13;&#10;Lindsay Finneman, Jeremy Finneman</textarea>
+      <br>
+      <input type="submit" value="Calculate">
+    </form>
+        
     <script type="text/javascript" src="calculate.js"></script>
-    <script>
-    function addFamily() {
-      var familyRow = document.createElement('div');
-      var textBox = document.createElement('input');
-      textBox.type = "text";
-      familyRow.appendChild(textBox);
-      document.getElementById('families').appendChild(familyRow);
-    }
-    </script>
   </body>
 </html>

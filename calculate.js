@@ -1,3 +1,5 @@
+var allPeople;
+
 function calculate() {
-    alert('calculate, man')
+    alert("here")
 }
