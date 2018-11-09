@@ -7,6 +7,7 @@
   <body>
     <p>Enter names from the same family on a single line, separated by a comma.</p>
     <p>Enter each family on its own line, separated by a carriage return.</p>
+    <p>Each name must be unique.</p>
 
     <textarea id="names" rows="10" cols="125">Adam, Mary&#13;&#10;Scott, Jenna&#13;&#10;Lindsay, Jeremy&#13;&#10;Ross&#13;&#10;Brett</textarea>
     <br>
@@ -23,9 +24,7 @@
       var famBlobs = names.split("\n");
       var families = new Array();
       famBlobs.forEach(famBlob => {
-        //todo: need to handle the case of extra commas at the end of a line--that seems likely.
-        //todo: need to trim each name.
-        var fam = famBlob.split(",");
+        var fam = famBlob.split(",").map(a => a.trim()).filter(b => b != null && b != "");
         families.push(fam);
       });
       document.getElementById("matches").value = calculate(families);
