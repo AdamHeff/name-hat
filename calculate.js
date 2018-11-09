@@ -1,5 +1,3 @@
-var allPeople;
-
 function calculate(families) {
-    alert("calculate: " + families);
+    return "calculate: " + families;
 }

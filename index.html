@@ -8,30 +8,28 @@
     <p>Enter names from the same family on a single line, separated by a comma.</p>
     <p>Enter each family on its own line, separated by a carriage return.</p>
 
-    <form onsubmit="calculateWrapper()">
-      <textarea id="names" rows="10" cols="125">Adam Heffelbwer, Mary Heffelbower, Sophia Heffelbower&#13;&#10;Lindsay Finneman, Jeremy Finneman</textarea>
-      <br>
-      <input type="submit" value="Calculate">
-    </form>
+    <textarea id="names" rows="10" cols="125">Adam Heffelbwer, Mary Heffelbower, Sophia Heffelbower&#13;&#10;Lindsay Finneman, Jeremy Finneman</textarea>
+    <br>
+    <button onclick="calculateWrapper()">Calculate</button>
+    <br>
+    <p>Results:</p>
+    <textarea id="matches" rows="20" cols="125"></textarea>
         
     <script type="text/javascript" src="calculate.js"></script>
 
     <script type="text/javascript">
-    
     function calculateWrapper() {
-      var names = document.getElementById("names").value;
+      var names = document.getElementById("names").value.trim();
       var famBlobs = names.split("\n");
       var families = new Array();
       famBlobs.forEach(famBlob => {
-        //alert("famBlob: " + famBlob);
+        //todo: need to handle the case of extra commas at the end of a line--that seems likely.
+        //todo: need to trim each name.
         var fam = famBlob.split(",");
-        //alert("family: " + fam + " count: " + fam.length);
         families.push(fam);
-        //alert("families: " + families + " count: " + families.length);
       });
-      calculate(families);
+      document.getElementById("matches").value = calculate(families);
     }
-    
     </script>
   </body>
 </html>
