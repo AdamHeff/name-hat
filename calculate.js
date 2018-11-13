@@ -53,11 +53,9 @@ function calculate(families) {
                 });
 
                 if(matchFriend != null) {
-                    // Swap
                     let tempReciever = matchFriend.receiver;
                     matchFriend.receiver = notTaken;
                     receiver = tempReciever;
-                    
                 } else {
                     totalFailure = true;
                 }
