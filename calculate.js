@@ -10,34 +10,47 @@ function calculate(families) {
 
     // Go through the list, generate a random match.
     let matches = new Array();
-    names.forEach(giver => {
-        let origIndex = Math.floor(Math.random() * names.length);
-        let currIndex = origIndex;
+    //names.forEach(giver => {
+    families.forEach(fam => {
+        fam.forEach(giver => {    
+            let origIndex = Math.floor(Math.random() * names.length);
+            let currIndex = origIndex;
 
-        // Find a match
-        let matchFound = false;
-        while(matchFound == false) {
-            var receiver = names[currIndex];
-            // Is the person in the same family? (Including self)? Is the person taken?
-            if(inFamily(families, receiver) || alreadyTaken(names, receiver)) {
-                currIndex++;
-                if(currIndex >= names.length) {
-                    currIndex = 0;
+            // Find a match
+            let doneLooping = false;
+            let matchFound = false;
+            while(doneLooping == false) {
+                var receiver = names[currIndex];
+                // Is the person in the same family? (Including self)? Is the person taken?
+                if(inFamily(fam, receiver) || alreadyTaken(matches, receiver)) {
+                    currIndex++;
+                    if(currIndex >= names.length) {
+                        currIndex = 0;
+                    }
+                    if(currIndex == origIndex) {
+                        // We went through the whole list and didn't find a match. Bailout, with no match
+                        doneLooping = true;
+                    }
                 }
-                if(currIndex == origIndex) {
-                    // We went through the whole list and didn't find a match. Start over.
-                    //todo: handle
+                else {
+                    doneLooping = true;
+                    matchFound = true;
                 }
             }
-            else {
-                matchFound = true;
-            }
-        }
 
-        var match = new Object();
-        match.giver = giver;
-        match.receiver = receiver;
-        matches.push(match);
+            if(!matchFound)
+            {
+                // If we make it here, we need to try a swap as a last ditch effort
+
+                // If we still didn't find a match, just bail all the way out.
+                return "Error: couldn't find matches.";
+            }
+
+            var match = new Object();
+            match.giver = giver;
+            match.receiver = receiver;
+            matches.push(match);
+        })
     })
 
     var response = new String();
@@ -48,9 +61,14 @@ function calculate(families) {
     return response;
 }
 
-function inFamily(families, receiver) {
-    //todo: finish
-    return false;
+function inFamily(fam, receiver) {
+    let returnVal = false;
+    fam.forEach(person => {
+        if(receiver == person) {
+            returnVal = true;
+        }
+    })
+    return returnVal;
 }
 
 function alreadyTaken(names, receiver) {
