@@ -9,8 +9,8 @@ function calculate(families) {
     });
 
     // Go through the list, generate a random match.
+    let totalFailure = false;
     let matches = new Array();
-    //names.forEach(giver => {
     families.forEach(fam => {
         fam.forEach(giver => {    
             let origIndex = Math.floor(Math.random() * names.length);
@@ -41,9 +41,26 @@ function calculate(families) {
             if(!matchFound)
             {
                 // If we make it here, we need to try a swap as a last ditch effort
+                let notTaken = getNotTaken(matches, names);
+                let matchFriend = null;
+                matches.forEach(match => {
+                    if(matchFriend == null) {
+                        if(!inFamily(getFamily(match.giver, families), notTaken) && !inFamily(getFamily(giver, families), match.receiver)) {
+                            // Perform swap
+                            matchFriend = match;
+                        }
+                    }
+                });
 
-                // If we still didn't find a match, just bail all the way out.
-                return "Error: couldn't find matches.";
+                if(matchFriend != null) {
+                    // Swap
+                    let tempReciever = matchFriend.receiver;
+                    matchFriend.receiver = notTaken;
+                    receiver = tempReciever;
+                    
+                } else {
+                    totalFailure = true;
+                }
             }
 
             var match = new Object();
@@ -54,10 +71,13 @@ function calculate(families) {
     })
 
     var response = new String();
-    matches.forEach(match => {
-        response += match.giver + " -> " + match.receiver + "\n";
-    });
-    
+    if(totalFailure) {
+        response = "Unable to make a match with this data."
+    } else {
+        matches.forEach(match => {
+            response += match.giver + " -> " + match.receiver + "\n";
+        });
+    }
     return response;
 }
 
@@ -71,7 +91,26 @@ function inFamily(fam, receiver) {
     return returnVal;
 }
 
-function alreadyTaken(names, receiver) {
-    //todo: finish
-    return false;
+function alreadyTaken(matches, receiver) {
+    let returnVal = false;
+    matches.forEach(match => {
+        if(match.receiver == receiver) {
+            returnVal = true;
+        }
+    })
+    return returnVal;
+}
+
+function getFamily(person, families) {
+    return families.find(fam => fam.indexOf(person) > -1);
+}
+
+function getNotTaken(matches, names) {
+    let returnVal = new String();
+    names.forEach(name => {
+        if(!alreadyTaken(matches, name)) {
+            returnVal = name;
+        }
+    });
+    return returnVal;
 }
