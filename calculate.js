@@ -15,7 +15,7 @@ function calculate(families) {
     });
 
     // Go through the list, generate a random match.
-    let totalFailure = false;
+    let unmatchableList = false;
     personInfos.forEach(giverInfo => {
         let receiverInfo = null;
 
@@ -23,23 +23,23 @@ function calculate(families) {
         let currIndex = origIndex;
 
         // Find a match
-        let doneLooping = false;
+        let innerloop = true;
         let matchFound = false;
-        while(doneLooping == false) {
+        while(innerloop) {
             receiverInfo = personInfos[currIndex];
             // Is the person in the same family? (Including self)? Is the person taken?
             if(inFamily(giverInfo.fam, receiverInfo.name) || receiverInfo.taken) {
-                currIndex++; // todo: find a better way to increment if possible.
+                currIndex++;
                 if(currIndex >= personInfos.length) {
                     currIndex = 0;
                 }
                 if(currIndex == origIndex) {
                     // We went through the whole list and didn't find a match. Bailout, with no match
-                    doneLooping = true;
+                    innerloop = false;
                 }
             }
             else {
-                doneLooping = true;
+                innerloop = false;
                 matchFound = true;
             }
         }
@@ -64,13 +64,13 @@ function calculate(families) {
                 notTakenInfo.taken = true;
                 giverInfo.receiverName = tempRecieverName;
             } else {
-                totalFailure = true;
+                unmatchableList = true;
             }
         }
     })
 
     var response = new String();
-    if(totalFailure) {
+    if(unmatchableList) {
         response = "Unable to make a match with this data."
     } else {
         personInfos.forEach(person => {
@@ -81,12 +81,5 @@ function calculate(families) {
 }
 
 function inFamily(fam, receiver) {
-    // todo: simplify later
-    let returnVal = false;
-    fam.forEach(person => {
-        if(receiver == person) {
-            returnVal = true;
-        }
-    })
-    return returnVal;
+    return fam.findIndex(x => x == receiver) != -1;
 }
