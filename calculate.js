@@ -9,6 +9,7 @@ function calculate(families) {
             personInfo.taken = false;
             personInfo.fam = fam;
             personInfo.receiverName = null;
+            // todo: also needs to have the inFamily method.
 
             personInfos.push(personInfo);
         });
@@ -56,6 +57,7 @@ function calculate(families) {
             personInfos.forEach(function (person) {
                 if (!inFamily(notTakenInfo.fam, person.name) && !inFamily(giverInfo.fam, person.receiverName)) {
                     matchFriend = person;
+                    //todo: need a break here.
                 }
             });
 
@@ -81,11 +83,12 @@ function calculate(families) {
     return response;
 }
 
+// todo: this needs to go inside the person info class / object
 function inFamily(fam, receiver) {
     var returnVal = false;
     fam.forEach(function (person) {
         if (receiver == person) {
-            returnVal = true;
+            returnVal = true; //todo: need a break and/or a return from right here.
         }
     });
     return returnVal;
