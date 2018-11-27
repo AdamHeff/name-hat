@@ -10,6 +10,7 @@ function calculate(families) {
             personInfo.fam = fam;
             personInfo.receiverName = null;
             // todo: also needs to have the inFamily method.
+            // todo: read here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
 
             personInfos.push(personInfo);
         });
@@ -88,7 +89,10 @@ function inFamily(fam, receiver) {
     var returnVal = false;
     fam.forEach(function (person) {
         if (receiver == person) {
-            returnVal = true; //todo: need a break and/or a return from right here.
+            returnVal = true; //todo: need a break and/or a return from right here. Consider a different for loop,
+            //todo: like this: //var divs = document.getElementsByTagName('div');
+                                //for (var i = 0, div; div = divs[i]; i++) {...}
+
         }
     });
     return returnVal;
