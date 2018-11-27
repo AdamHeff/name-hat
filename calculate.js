@@ -77,6 +77,7 @@ function calculate(families) {
     if (unmatchableList) {
         response = "Unable to make a match with this data.";
     } else {
+        //todo: can this be simplified with this? var myArray = new Array('Wind', 'Rain', 'Fire'); var list = myArray.join(' - '); // list is "Wind - Rain - Fire"
         personInfos.forEach(function (person) {
             response += person.name + " -> " + person.receiverName + "\n";
         });
