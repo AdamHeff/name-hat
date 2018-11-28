@@ -99,7 +99,34 @@ function inFamily(fam, receiver) {
     return returnVal;
 }
 
+/*
+function displayCar() { var result = 'A Beautiful ' + this.year + ' ' + this.make + ' ' + this.model; pretty_print(result); }
+where pretty_print is a function to display a horizontal rule and a string. Notice the use of this to refer to the object to which the method belongs.
+You can make this function a method of Car by adding the statement
+this.displayCar = displayCar;
+to the object definition. So, the full definition of Car would now look like
+function Car(make, model, year, owner) { this.make = make; this.model = model; this.year = year; this.owner = owner; this.displayCar = displayCar; }
+Then you can call the displayCar method for each of the objects as follows:
+car1.displayCar(); car2.displayCar();
 
+// Animal properties and method encapsulation
+
+var Animal = {
+type: 'Invertebrates', // Default value of properties
+displayType: function() { // Method which will display type of Animal console.log(this.type); } };
+
+// Create new animal type called animal1 var animal1 = Object.create(Animal); animal1.displayType(); // Output:Invertebrates
+
+// Create new animal type called Fishes
+var fish = Object.create(Animal);
+fish.type = 'Fishes';
+fish.displayType(); // Output:Fishes
+
+*/
+//todo: adam: good object/object type example
+
+
+//todo: adam: remove non ie compliant code
 /*function calculate(families) {
 
     // Copy all the names into a straight list
