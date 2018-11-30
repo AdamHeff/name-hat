@@ -1,26 +1,22 @@
+// Constructor for a person with all it's properties
 function PersonInfo(name, fam) {
     this.taken = false;
     this.name = name;
     this.fam = fam;
     this.receiverName = undefined;
     this.isInFamily = function(receiver) {
-        let returnVal = false;
-        this.fam.forEach(function (person) {
-            if (receiver == person) {
-                returnVal = true; //todo: need a break and/or a return from right here. Consider a different for loop,
-                //todo: like this: //var divs = document.getElementsByTagName('div');
-                                    //for (var i = 0, div; div = divs[i]; i++) {...}
+        for(var i=0; i<this.fam.length; i++) {
+            if(receiver == this.fam[i]) {
+                return true;
             }
-        });
-        return returnVal;
+        }
+        return false;
     }
 }
 
-
-
+// The main body that will output a match if at all possible.
 function calculate(families) {
 
-    // Copy all the people into an array of objects
     var personInfos = new Array();
     families.forEach(function (fam) {
         fam.forEach(function (person) {
@@ -67,7 +63,7 @@ function calculate(families) {
             var notTakenInfo = personInfos.find(function (x) {
                 return x.taken == false;
             });
-            var matchFriend = undefined;
+            var swapFriend = undefined;
             personInfos.forEach(function (person) {
                 if (!notTakenInfo.isInFamily(person.name) && !giverInfo.isInFamily(person.receiverName)) {
                     matchFriend = person;
@@ -75,9 +71,9 @@ function calculate(families) {
                 }
             });
 
-            if (matchFriend != undefined) {
-                var tempRecieverName = matchFriend.receiverName;
-                matchFriend.receiverName = notTakenInfo.name;
+            if (swapFriend != undefined) {
+                var tempRecieverName = swapFriend.receiverName;
+                swapFriend.receiverName = notTakenInfo.name;
                 notTakenInfo.taken = true;
                 giverInfo.receiverName = tempRecieverName;
             } else {
@@ -90,7 +86,6 @@ function calculate(families) {
     if (unmatchableList) {
         response = "Unable to make a match with this data.";
     } else {
-        //todo: can this be simplified with this? var myArray = new Array('Wind', 'Rain', 'Fire'); var list = myArray.join(' - '); // list is "Wind - Rain - Fire"
         personInfos.forEach(function (person) {
             response += person.name + " -> " + person.receiverName + "\n";
         });
