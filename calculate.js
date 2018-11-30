@@ -31,29 +31,28 @@ function calculate(families) {
 
         var receiverInfo = undefined;
         var origIndex = Math.floor(Math.random() * personInfos.length);
-        var currIndex = origIndex;
+        var idx = origIndex;
 
         // Find a match
-        var innerloop = true;
-        var matchFound = false;
+        var innerloop = true; //todo: change this to a for loop, and then I wont need the innerloop flag.
         while (innerloop) {
-            receiverInfo = personInfos[currIndex];
             // Is the person in the same family? (Including self)? Is the person taken?
-            if (giverInfo.isInFamily(receiverInfo.name) || receiverInfo.taken) {
-                currIndex++;
-                if (currIndex >= personInfos.length) {
-                    currIndex = 0;
+            if (giverInfo.isInFamily(personInfos[idx].name) || personInfos[idx].taken) {
+                idx++;
+                if (idx >= personInfos.length) {
+                    idx = 0;
                 }
-                if (currIndex == origIndex) {
+                if (idx == origIndex) {
                     // We went through the whole list and didn't find a match. Bailout, with no match
                     innerloop = false;
                 }
             } else {
                 innerloop = false;
-                matchFound = true;
+                receiverInfo = personInfos[idx];
             }
         }
-        if (matchFound) {
+
+        if (receiverInfo != undefined) {
             giverInfo.receiverName = receiverInfo.name;
             receiverInfo.taken = true;
         } else {
