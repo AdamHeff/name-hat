@@ -64,12 +64,19 @@ function calculate(families) {
                 return x.taken == false;
             });
             var swapFriend = undefined;
-            personInfos.forEach(function (person) {
-                if (!notTakenInfo.isInFamily(person.name) && !giverInfo.isInFamily(person.receiverName)) {
-                    matchFriend = person;
-                    //todo: need a break here.
+
+            for(var i=0; i<personInfos.length; i++) {
+                if (!notTakenInfo.isInFamily(personInfos[i].name) && !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                    swapFriend = personInfos[i];
+                    break;
                 }
-            });
+            }
+            //personInfos.forEach(function (person) {
+            //    if (!notTakenInfo.isInFamily(person.name) && !giverInfo.isInFamily(person.receiverName)) {
+            //        swapFriend = person;
+            //        //todo: need a break here.
+            //    }
+            //});
 
             if (swapFriend != undefined) {
                 var tempRecieverName = swapFriend.receiverName;
