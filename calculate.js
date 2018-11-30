@@ -1,17 +1,32 @@
+function PersonInfo(name, fam) {
+    this.taken = false;
+    this.name = name;
+    this.fam = fam;
+    this.receiverName = undefined;
+    this.isInFamily = function(receiver) {
+        let returnVal = false;
+        this.fam.forEach(function (person) {
+            if (receiver == person) {
+                returnVal = true; //todo: need a break and/or a return from right here. Consider a different for loop,
+                //todo: like this: //var divs = document.getElementsByTagName('div');
+                                    //for (var i = 0, div; div = divs[i]; i++) {...}
+            }
+        });
+        return returnVal;
+    }
+}
+
+
+
 function calculate(families) {
 
     // Copy all the names into a straight list
     var personInfos = new Array();
     families.forEach(function (fam) {
         fam.forEach(function (person) {
-            var personInfo = new Object();
-            personInfo.name = person;
-            personInfo.taken = false;
-            personInfo.fam = fam;
-            personInfo.receiverName = null;
+            var personInfo = new PersonInfo(person, fam);
             // todo: also needs to have the inFamily method.
             // todo: read here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
-
             personInfos.push(personInfo);
         });
     });
@@ -19,8 +34,8 @@ function calculate(families) {
     // Go through the list, generate a random match.
     var unmatchableList = false;
     personInfos.forEach(function (giverInfo) {
-        var receiverInfo = null;
 
+        var receiverInfo = undefined;
         var origIndex = Math.floor(Math.random() * personInfos.length);
         var currIndex = origIndex;
 
@@ -30,7 +45,7 @@ function calculate(families) {
         while (innerloop) {
             receiverInfo = personInfos[currIndex];
             // Is the person in the same family? (Including self)? Is the person taken?
-            if (inFamily(giverInfo.fam, receiverInfo.name) || receiverInfo.taken) {
+            if (giverInfo.isInFamily(receiverInfo.name) || receiverInfo.taken) {
                 currIndex++;
                 if (currIndex >= personInfos.length) {
                     currIndex = 0;
@@ -54,15 +69,15 @@ function calculate(families) {
             var notTakenInfo = personInfos.find(function (x) {
                 return x.taken == false;
             });
-            var matchFriend = null;
+            var matchFriend = undefined;
             personInfos.forEach(function (person) {
-                if (!inFamily(notTakenInfo.fam, person.name) && !inFamily(giverInfo.fam, person.receiverName)) {
+                if (!notTakenInfo.isInFamily(person.name) && !giverInfo.isInFamily(person.receiverName)) {
                     matchFriend = person;
                     //todo: need a break here.
                 }
             });
 
-            if (matchFriend != null) {
+            if (matchFriend != undefined) {
                 var tempRecieverName = matchFriend.receiverName;
                 matchFriend.receiverName = notTakenInfo.name;
                 notTakenInfo.taken = true;
@@ -83,20 +98,6 @@ function calculate(families) {
         });
     }
     return response;
-}
-
-// todo: this needs to go inside the person info class / object
-function inFamily(fam, receiver) {
-    var returnVal = false;
-    fam.forEach(function (person) {
-        if (receiver == person) {
-            returnVal = true; //todo: need a break and/or a return from right here. Consider a different for loop,
-            //todo: like this: //var divs = document.getElementsByTagName('div');
-                                //for (var i = 0, div; div = divs[i]; i++) {...}
-
-        }
-    });
-    return returnVal;
 }
 
 /*
