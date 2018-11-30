@@ -57,28 +57,23 @@ function calculate(families) {
             giverInfo.receiverName = receiverInfo.name;
             receiverInfo.taken = true;
         } else {
-
             // If we make it here, we need to try a swap as a last ditch effort (This is a rare case, but is most of
             // the complexity. It's when the last person draws her own name, or the name of someone in her family.)
-            
+
+            unmatchableList = true;            
             var notTakenInfo = personInfos.find(function (x) {
                 return x.taken == false;
             });
 
-            var swapFriend = undefined;
             for(var i=0; i<personInfos.length; i++) {
                 if (!notTakenInfo.isInFamily(personInfos[i].name) && !giverInfo.isInFamily(personInfos[i].receiverName)) {
-                    swapFriend = personInfos[i];
+                    unmatchableList = false;
+                    let tempRecieverName = personInfos[i].receiverName;
+                    personInfos[i].receiverName = notTakenInfo.name;
+                    notTakenInfo.taken = true;
+                    giverInfo.receiverName = tempRecieverName;
                     break;
                 }
-            }
-            if (swapFriend != undefined) {
-                var tempRecieverName = swapFriend.receiverName;
-                swapFriend.receiverName = notTakenInfo.name;
-                notTakenInfo.taken = true;
-                giverInfo.receiverName = tempRecieverName;
-            } else {
-                unmatchableList = true;
             }
         }
     });
