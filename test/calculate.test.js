@@ -22,6 +22,7 @@ describe('calculate', function() {
     });
 });
 
+//todo: adam: this test will improve when I make random injectable
 describe('calculate', function() {
     it('should be able to match 2 families', function() {
 
