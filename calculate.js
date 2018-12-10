@@ -17,6 +17,9 @@ function PersonInfo(name, fam) {
 // The main body that will output a match if at all possible.
 function calculate(families) {
 
+    //todo: adam: try having two totally different arrays (possibly with two different object types) : Givers and Receivers.
+    //todo: adam: Then the receivers could be a dictionary or something... it could be an object, which I can also iterate...or not.
+    //todo: adam: Start with just an array.
     var personInfos = new Array();
     families.forEach(function (fam) {
         fam.forEach(function (person) {
