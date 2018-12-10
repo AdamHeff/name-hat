@@ -68,7 +68,10 @@ function calculate(families) {
             });
 
             for(var i=0; i<personInfos.length; i++) {
-                if (personInfos[i].receiverName != undefined && !notTakenInfo.isInFamily(personInfos[i].name) && !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                if (personInfos[i].receiverName != undefined &&
+                    !notTakenInfo.isInFamily(personInfos[i].name) &&
+                    !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                    
                     unmatchableList = false;
                     let tempRecieverName = personInfos[i].receiverName;
                     personInfos[i].receiverName = notTakenInfo.name;
