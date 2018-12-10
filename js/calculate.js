@@ -33,7 +33,7 @@ function calculate(families) {
     personInfos.forEach(function (giverInfo) {
 
         var receiverInfo = undefined;
-        var origIndex = Math.floor(Math.random() * personInfos.length);
+        var origIndex = Math.floor(Math.random() * personInfos.length); //todo: adam: the next thing is to make this random function injected so I can test better.
         var idx = origIndex;
 
         // Find a match
@@ -68,7 +68,7 @@ function calculate(families) {
             });
 
             for(var i=0; i<personInfos.length; i++) {
-                if (!notTakenInfo.isInFamily(personInfos[i].name) && !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                if (personInfos[i].receiverName != undefined && !notTakenInfo.isInFamily(personInfos[i].name) && !giverInfo.isInFamily(personInfos[i].receiverName)) {
                     unmatchableList = false;
                     let tempRecieverName = personInfos[i].receiverName;
                     personInfos[i].receiverName = notTakenInfo.name;
@@ -90,3 +90,5 @@ function calculate(families) {
     }
     return response;
 }
+
+module.exports = calculate;
