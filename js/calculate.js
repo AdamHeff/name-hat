@@ -3,7 +3,6 @@ function PersonInfo(name, fam) {
     this.name = name;
     this.fam = fam;
     this.receiverName = undefined;
-    this.taken = false;
 
     this.inFamily = function(receiver) {
         for(var i=0; i<this.fam.length; i++) {
@@ -22,14 +21,13 @@ function calculate(families) {
 // The main body that will output a match if at all possible.
 function calculateBody(families, randomFunc) {
 
-    //todo: adam: try having two totally different arrays (possibly with two different object types) : Givers and Receivers.
-    //todo: adam: Then the receivers could be a dictionary or something... it could be an object, which I can also iterate...or not.
-    //todo: adam: Start with just an array.
     var personInfos = new Array();
+    var receivers = new Array();
     families.forEach(function (fam) {
         fam.forEach(function (person) {
             var personInfo = new PersonInfo(person, fam);
             personInfos.push(personInfo);
+            receivers.push(person);
         });
     });
 
@@ -37,41 +35,35 @@ function calculateBody(families, randomFunc) {
     var unmatchableList = false;
     personInfos.forEach(function (giverInfo) {
 
-        var idx = Math.floor(randomFunc() * personInfos.length);
-        for(var i=0; i<personInfos.length; i++) {
+        var idx = Math.floor(randomFunc() * receivers.length);
+        for(var i=0; i<receivers.length; i++) {
 
-            // Is the person in the same family? (Including self)? Is the person taken?
-            if (giverInfo.inFamily(personInfos[idx].name) || personInfos[idx].taken) {
+            if (giverInfo.inFamily(receivers[idx])) {
                 idx++;
-                if (idx >= personInfos.length) {
+                if (idx >= receivers.length) {
                     idx = 0;
                 }
-                if (i == personInfos.length-1) {
+                if (i == receivers.length-1) {
 
                     // We went through the whole list and didn't find a match. Try a last ditch swap
-                    unmatchableList = true;
-                    
-                    // There could be more than one notTakenInfo, but the algorithm meets the requirements anyway.
-                    var notTaken = personInfos.find(function (x) {
-                        return x.taken == false;
-                    });
+                    unmatchableList = true;                    
                     for(var j=0; j<personInfos.length; j++) {
-                        if (personInfos[j].receiverName != undefined &&
-                            !notTaken.inFamily(personInfos[j].name) &&
+                        if (personInfos[j].receiverName != undefined && 
+                            !personInfos[j].inFamily(receivers[0]) &&
                             !giverInfo.inFamily(personInfos[j].receiverName)) {
                             
                             unmatchableList = false;
                             let tempRecieverName = personInfos[j].receiverName;
-                            personInfos[j].receiverName = notTaken.name;
-                            notTaken.taken = true;
+                            personInfos[j].receiverName = receivers[0];
                             giverInfo.receiverName = tempRecieverName;
+                            receivers.splice(0, 1);
                             break;
                         }
                     }
                 }
             } else {
-                giverInfo.receiverName =  personInfos[idx].name;
-                personInfos[idx].taken = true;
+                giverInfo.receiverName = receivers[idx];
+                receivers.splice(idx, 1);
                 break;
             }
         }
