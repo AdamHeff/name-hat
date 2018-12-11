@@ -36,8 +36,7 @@ function calculateBody(families, randomFunc) {
     var unmatchableList = false;
     personInfos.forEach(function (giverInfo) {
 
-        var receiverInfo = undefined;
-        var origIndex = Math.floor(randomFunc() * personInfos.length); //todo: adam: the next thing is to make this random function injected so I can test better.
+        var origIndex = Math.floor(randomFunc() * personInfos.length);
         var idx = origIndex;
 
         // Find a match
@@ -50,41 +49,32 @@ function calculateBody(families, randomFunc) {
                     idx = 0;
                 }
                 if (idx == origIndex) {
-                    // We went through the whole list and didn't find a match. Bailout, with no match
+                    // We went through the whole list and didn't find a match. Try a last ditch swap
                     innerloop = false;
+
+                    // There could be more than one notTakenInfo, but the algorithm meets the requirements anyway.
+                    unmatchableList = true;            
+                    var notTakenInfo = personInfos.find(function (x) {
+                        return x.taken == false;
+                    });
+                    for(var i=0; i<personInfos.length; i++) {
+                        if (personInfos[i].receiverName != undefined &&
+                            !notTakenInfo.isInFamily(personInfos[i].name) &&
+                            !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                            
+                            unmatchableList = false;
+                            let tempRecieverName = personInfos[i].receiverName;
+                            personInfos[i].receiverName = notTakenInfo.name;
+                            notTakenInfo.taken = true;
+                            giverInfo.receiverName = tempRecieverName;
+                            break;
+                        }
+                    }
                 }
             } else {
                 innerloop = false;
-                receiverInfo = personInfos[idx];
-            }
-        }
-
-        if (receiverInfo != undefined) {
-            giverInfo.receiverName = receiverInfo.name;
-            receiverInfo.taken = true;
-        } else {
-            // If we make it here, we need to try a swap as a last ditch effort (This is a rare case, but is most of
-            // the complexity. It's when the last person draws her own name, or the name of someone in her family.)
-            
-            // There could be more than one notTakenInfo, but the algorithm meets the requirements anyway.
-            unmatchableList = true;            
-            var notTakenInfo = personInfos.find(function (x) {
-                return x.taken == false;
-            });
-
-            // This defies pure randomization. (First person will give to the last person slightly more than pure random.) But it's within the limits of my requirements.
-            for(var i=0; i<personInfos.length; i++) {
-                if (personInfos[i].receiverName != undefined &&
-                    !notTakenInfo.isInFamily(personInfos[i].name) &&
-                    !giverInfo.isInFamily(personInfos[i].receiverName)) {
-                    
-                    unmatchableList = false;
-                    let tempRecieverName = personInfos[i].receiverName;
-                    personInfos[i].receiverName = notTakenInfo.name;
-                    notTakenInfo.taken = true;
-                    giverInfo.receiverName = tempRecieverName;
-                    break;
-                }
+                giverInfo.receiverName =  personInfos[idx].name;
+                personInfos[idx].taken = true;
             }
         }
     });
