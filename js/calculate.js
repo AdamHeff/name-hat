@@ -1,10 +1,11 @@
 // Constructor for a person with all it's properties
 function PersonInfo(name, fam) {
-    this.taken = false;
     this.name = name;
     this.fam = fam;
     this.receiverName = undefined;
-    this.isInFamily = function(receiver) {
+    this.taken = false;
+
+    this.inFamily = function(receiver) {
         for(var i=0; i<this.fam.length; i++) {
             if(receiver == this.fam[i]) {
                 return true;
@@ -36,45 +37,42 @@ function calculateBody(families, randomFunc) {
     var unmatchableList = false;
     personInfos.forEach(function (giverInfo) {
 
-        var origIndex = Math.floor(randomFunc() * personInfos.length);
-        var idx = origIndex;
+        var idx = Math.floor(randomFunc() * personInfos.length);
+        for(var i=0; i<personInfos.length; i++) {
 
-        // Find a match
-        var innerloop = true; //todo: change this to a for loop, and then I wont need the innerloop flag.
-        while (innerloop) {
             // Is the person in the same family? (Including self)? Is the person taken?
-            if (giverInfo.isInFamily(personInfos[idx].name) || personInfos[idx].taken) {
+            if (giverInfo.inFamily(personInfos[idx].name) || personInfos[idx].taken) {
                 idx++;
                 if (idx >= personInfos.length) {
                     idx = 0;
                 }
-                if (idx == origIndex) {
-                    // We went through the whole list and didn't find a match. Try a last ditch swap
-                    innerloop = false;
+                if (i == personInfos.length-1) {
 
+                    // We went through the whole list and didn't find a match. Try a last ditch swap
+                    unmatchableList = true;
+                    
                     // There could be more than one notTakenInfo, but the algorithm meets the requirements anyway.
-                    unmatchableList = true;            
-                    var notTakenInfo = personInfos.find(function (x) {
+                    var notTaken = personInfos.find(function (x) {
                         return x.taken == false;
                     });
-                    for(var i=0; i<personInfos.length; i++) {
-                        if (personInfos[i].receiverName != undefined &&
-                            !notTakenInfo.isInFamily(personInfos[i].name) &&
-                            !giverInfo.isInFamily(personInfos[i].receiverName)) {
+                    for(var j=0; j<personInfos.length; j++) {
+                        if (personInfos[j].receiverName != undefined &&
+                            !notTaken.inFamily(personInfos[j].name) &&
+                            !giverInfo.inFamily(personInfos[j].receiverName)) {
                             
                             unmatchableList = false;
-                            let tempRecieverName = personInfos[i].receiverName;
-                            personInfos[i].receiverName = notTakenInfo.name;
-                            notTakenInfo.taken = true;
+                            let tempRecieverName = personInfos[j].receiverName;
+                            personInfos[j].receiverName = notTaken.name;
+                            notTaken.taken = true;
                             giverInfo.receiverName = tempRecieverName;
                             break;
                         }
                     }
                 }
             } else {
-                innerloop = false;
                 giverInfo.receiverName =  personInfos[idx].name;
                 personInfos[idx].taken = true;
+                break;
             }
         }
     });
