@@ -65,13 +65,14 @@ function calculateBody(families, randomFunc) {
         } else {
             // If we make it here, we need to try a swap as a last ditch effort (This is a rare case, but is most of
             // the complexity. It's when the last person draws her own name, or the name of someone in her family.)
-
-            //todo: adam: investigate: there could be more than one notTakenInfo, but I think that is handled.
+            
+            // There could be more than one notTakenInfo, but the algorithm meets the requirements anyway.
             unmatchableList = true;            
             var notTakenInfo = personInfos.find(function (x) {
                 return x.taken == false;
             });
 
+            // This defies pure randomization. (First person will give to the last person slightly more than pure random.) But it's within the limits of my requirements.
             for(var i=0; i<personInfos.length; i++) {
                 if (personInfos[i].receiverName != undefined &&
                     !notTakenInfo.isInFamily(personInfos[i].name) &&
@@ -99,4 +100,4 @@ function calculateBody(families, randomFunc) {
     return response;
 }
 
-module.exports = calculate;
+module.exports = calculateBody;

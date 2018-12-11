@@ -1,30 +1,27 @@
-var calculate = require('../js/calculate.js');
+var calculateBody = require('../js/calculate.js');
 var assert = require('assert');
 
-//todo: adam: the next step is to test the case of the single guy who draws his own name, but need to inject random first.
-
-describe('calculate', function() {
+describe('calculateBody', function() {
     it('should return an empty string', function() {
-        var empty = calculate(new Array());
+        var empty = calculateBody(new Array(), Math.random);
         assert.equal(empty, "");
     });
 });
 
-describe('calculate', function() {
+describe('calculateBody', function() {
     it('should not be able to calculate 2 families of unequal length', function() {
         var families = new Array();
         var fam1 = ["Adam", "Mary", "Ben"];
         var fam2 = ["Jeremy", "Lindsay"];
         families.push(fam1);
         families.push(fam2);
-        var undoable = calculate(families);
+        var undoable = calculateBody(families, Math.random);
         assert.equal(undoable, "Unable to make a match with this data.");
     });
 });
 
-//todo: adam: this test will improve when I make random injectable
-describe('calculate', function() {
-    it('should be able to match 2 families', function() {
+describe('calculateBody', function() {
+    it('should be able to match 2 families with actual Math.random', function() {
 
         // Arrange
         var families = new Array();
@@ -34,9 +31,10 @@ describe('calculate', function() {
         families.push(fam2);
 
         // Act
-        var fine = calculate(families);
+        var fine = calculateBody(families, Math.random);
 
         // Assert
+        // This test is a tad complex since it uses actual Math.random
         assert.equal((fine.match(/Adam/g) || []).length, 2);
         assert.equal((fine.match(/Mary/g) || []).length, 2);
         assert.equal((fine.match(/Jeremy/g) || []).length, 2);
@@ -53,5 +51,28 @@ describe('calculate', function() {
                 assert.equal(match[1] == "Adam" || match[1] == "Mary", true);
             }
         });
+    });
+});
+
+describe('calculateBody', function() {
+    it('should handle worst case randomization', function() {
+
+        // Arrange
+        function myRandom() {
+            return 0.01;
+        }
+        var families = new Array();
+        var fam1 = ["Adam", "Mary"];
+        var fam2 = ["Jeremy", "Lindsay"];
+        var fam3 = ["Brett"];
+        families.push(fam1);
+        families.push(fam2);
+        families.push(fam3);
+
+        // Act
+        var fakeRand = calculateBody(families, myRandom);
+
+        // Assert
+        assert.equal(fakeRand, 'Adam -> Brett\nMary -> Lindsay\nJeremy -> Adam\nLindsay -> Mary\nBrett -> Jeremy\n');
     });
 });
