@@ -19,16 +19,6 @@
     <script type="text/javascript" src="js/calculate.js"></script>
 
     <script type="text/javascript">
-    /*function calculateWrapper() {
-      var names = document.getElementById("names").value.trim();
-      var famBlobs = names.split("\n");
-      var families = new Array();
-      famBlobs.forEach(famBlob => {
-        var fam = famBlob.split(",").map(a => a.trim()).filter(b => b != null && b != "");
-        families.push(fam);
-      });
-      document.getElementById("matches").value = calculate(families);
-    }*/
     function calculateWrapper() {
       var names = document.getElementById("names").value.trim();
       var famBlobs = names.split("\n");
@@ -37,7 +27,7 @@
         var fam = famBlob.split(",").map(function (a) {
           return a.trim();
         }).filter(function (b) {
-          return b != null && b != "";
+          return b!= undefined && b != null && b != "";
         });
         families.push(fam);
       });

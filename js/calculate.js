@@ -62,6 +62,7 @@ function calculate(families) {
             // If we make it here, we need to try a swap as a last ditch effort (This is a rare case, but is most of
             // the complexity. It's when the last person draws her own name, or the name of someone in her family.)
 
+            //todo: adam: investigate: there could be more than one notTakenInfo, but I think that is handled.
             unmatchableList = true;            
             var notTakenInfo = personInfos.find(function (x) {
                 return x.taken == false;
