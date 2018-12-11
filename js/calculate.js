@@ -14,8 +14,12 @@ function PersonInfo(name, fam) {
     }
 }
 
-// The main body that will output a match if at all possible.
 function calculate(families) {
+    return calculateBody(families, Math.random);
+}
+
+// The main body that will output a match if at all possible.
+function calculateBody(families, randomFunc) {
 
     //todo: adam: try having two totally different arrays (possibly with two different object types) : Givers and Receivers.
     //todo: adam: Then the receivers could be a dictionary or something... it could be an object, which I can also iterate...or not.
@@ -33,7 +37,7 @@ function calculate(families) {
     personInfos.forEach(function (giverInfo) {
 
         var receiverInfo = undefined;
-        var origIndex = Math.floor(Math.random() * personInfos.length); //todo: adam: the next thing is to make this random function injected so I can test better.
+        var origIndex = Math.floor(randomFunc() * personInfos.length); //todo: adam: the next thing is to make this random function injected so I can test better.
         var idx = origIndex;
 
         // Find a match
