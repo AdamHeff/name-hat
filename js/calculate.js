@@ -1,5 +1,5 @@
 // Constructor for a person with all it's properties
-function PersonInfo(name, fam) {
+function GiverInfo(name, fam) {
     this.name = name;
     this.fam = fam;
     this.receiverName = undefined;
@@ -21,50 +21,52 @@ function calculate(families) {
 // The main body that will output a match if at all possible.
 function calculateBody(families, randomFunc) {
 
-    var personInfos = new Array();
+    var givers = new Array();
     var receivers = new Array();
+
     families.forEach(function (fam) {
         fam.forEach(function (person) {
-            var personInfo = new PersonInfo(person, fam);
-            personInfos.push(personInfo);
+            var giverInfo = new GiverInfo(person, fam);
+            givers.push(giverInfo);
             receivers.push(person);
         });
     });
 
     // Go through the list, generate a random match.
     var unmatchableList = false;
-    personInfos.forEach(function (giverInfo) {
-
+    givers.forEach(function (giverInfo) {
         var idx = Math.floor(randomFunc() * receivers.length);
         for(var i=0; i<receivers.length; i++) {
+            if (!giverInfo.inFamily(receivers[idx])) {
 
-            if (giverInfo.inFamily(receivers[idx])) {
+                giverInfo.receiverName = receivers[idx];
+                receivers.splice(idx, 1);
+                break;
+
+            } else {
+
                 idx++;
                 if (idx >= receivers.length) {
                     idx = 0;
                 }
                 if (i == receivers.length-1) {
 
-                    // We went through the whole list and didn't find a match. Try a last ditch swap
+                    // We went through the whole list and didn't find a match. (In normal scenarios, this
+                    // is a very rare case when the last guy draws his own name.)
                     unmatchableList = true;                    
-                    for(var j=0; j<personInfos.length; j++) {
-                        if (personInfos[j].receiverName != undefined && 
-                            !personInfos[j].inFamily(receivers[0]) &&
-                            !giverInfo.inFamily(personInfos[j].receiverName)) {
-                            
-                            unmatchableList = false;
-                            let tempRecieverName = personInfos[j].receiverName;
-                            personInfos[j].receiverName = receivers[0];
-                            giverInfo.receiverName = tempRecieverName;
-                            receivers.splice(0, 1);
-                            break;
+                    for(var j=0; j<givers.length; j++) {
+                        if (givers[j].receiverName != undefined) {
+                            if(!givers[j].inFamily(receivers[0]) && !giverInfo.inFamily(givers[j].receiverName)) {                            
+                                unmatchableList = false;
+                                let tempRecieverName = givers[j].receiverName;
+                                givers[j].receiverName = receivers[0];
+                                giverInfo.receiverName = tempRecieverName;
+                                receivers.splice(0, 1);
+                                break;
+                            }
                         }
                     }
                 }
-            } else {
-                giverInfo.receiverName = receivers[idx];
-                receivers.splice(idx, 1);
-                break;
             }
         }
     });
@@ -73,7 +75,7 @@ function calculateBody(families, randomFunc) {
     if (unmatchableList) {
         response = "Unable to make a match with this data.";
     } else {
-        personInfos.forEach(function (person) {
+        givers.forEach(function (person) {
             response += person.name + " -> " + person.receiverName + "\n";
         });
     }
