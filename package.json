@@ -1,5 +1,13 @@
 {
+    "name": "name-hat",
+    "version": "1.0.0",
+    "description": "The name hat for gift exchanges!",
+    "main": "calculate.js",
     "scripts": {
         "test": "mocha"
-      }
+    },
+    "author": "Adam Heffelbower"
+
+
+
 }

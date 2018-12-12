@@ -1,2 +1,2 @@
 # name-hat
-The name hat project
+The name hat for gift exchanges!
