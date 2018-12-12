@@ -4,13 +4,16 @@ function GiverInfo(name, fam) {
     this.fam = fam;
     this.receiverName = undefined;
 
-    this.inFamily = function(receiver) {
+    this.isOkReceiver = function(receiver) {
+        if(receiver == undefined) {
+            return false;
+        }
         for(var i=0; i<this.fam.length; i++) {
             if(receiver == this.fam[i]) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
 
@@ -37,7 +40,7 @@ function calculateBody(families, randomFunc) {
     givers.forEach(function (giverInfo) {
         var idx = Math.floor(randomFunc() * receivers.length);
         for(var i=0; i<receivers.length; i++) {
-            if (!giverInfo.inFamily(receivers[idx])) {
+            if (giverInfo.isOkReceiver(receivers[idx])) {
 
                 giverInfo.receiverName = receivers[idx];
                 receivers.splice(idx, 1);
@@ -55,15 +58,13 @@ function calculateBody(families, randomFunc) {
                     // is a very rare case when the last guy draws his own name.)
                     unmatchableList = true;                    
                     for(var j=0; j<givers.length; j++) {
-                        if (givers[j].receiverName != undefined) {
-                            if(!givers[j].inFamily(receivers[0]) && !giverInfo.inFamily(givers[j].receiverName)) {                            
-                                unmatchableList = false;
-                                let tempRecieverName = givers[j].receiverName;
-                                givers[j].receiverName = receivers[0];
-                                giverInfo.receiverName = tempRecieverName;
-                                receivers.splice(0, 1);
-                                break;
-                            }
+                        if(givers[j].isOkReceiver(receivers[0]) && giverInfo.isOkReceiver(givers[j].receiverName)) {                            
+                            unmatchableList = false;
+                            let tempRecieverName = givers[j].receiverName;
+                            givers[j].receiverName = receivers[0];
+                            giverInfo.receiverName = tempRecieverName;
+                            receivers.splice(0, 1);
+                            break;
                         }
                     }
                 }
