@@ -11,15 +11,15 @@
 
     <textarea id="names" rows="10" cols="125">Adam, Mary&#13;&#10;Scott, Jenna&#13;&#10;Lindsay, Jeremy&#13;&#10;Ross&#13;&#10;Brett</textarea>
     <br>
-    <button onclick="calculateWrapper()">Calculate</button>
+    <button onclick="onclickCalculate()">Calculate</button>
     <br>
     <p>Results:</p>
     <textarea id="matches" rows="20" cols="125"></textarea>
         
-    <script type="text/javascript" src="js/calculate.js"></script>
+    <script type="text/javascript" src="js/makematches.js"></script>
 
     <script type="text/javascript">
-    function calculateWrapper() {
+    function onclickCalculate() {
       var names = document.getElementById("names").value.trim();
       var famBlobs = names.split("\n");
       var families = new Array();
@@ -31,7 +31,7 @@
         });
         families.push(fam);
       });
-      document.getElementById("matches").value = calculate(families);
+      document.getElementById("matches").value = makematches(families);
     }
     </script>
   </body>

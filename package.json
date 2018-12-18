@@ -2,7 +2,7 @@
     "name": "name-hat",
     "version": "1.0.0",
     "description": "The name hat for gift exchanges!",
-    "main": "calculate.js",
+    "main": "makematches.js",
     "scripts": {
         "test": "mocha"
     },

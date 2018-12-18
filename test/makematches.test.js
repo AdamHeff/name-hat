@@ -1,26 +1,26 @@
-var calculateBody = require('../js/calculate.js');
+var makematchesBody = require('../js/makematches.js');
 var assert = require('assert');
 
-describe('calculateBody', function() {
+describe('makematchesBody', function() {
     it('should return an empty string', function() {
-        var empty = calculateBody(new Array(), Math.random);
+        var empty = makematchesBody(new Array(), Math.random);
         assert.equal(empty, "");
     });
 });
 
-describe('calculateBody', function() {
-    it('should not be able to calculate 2 families of unequal length', function() {
+describe('makematchesBody', function() {
+    it('should not be able to makematches for 2 families of unequal length', function() {
         var families = new Array();
         var fam1 = ["Adam", "Mary", "Ben"];
         var fam2 = ["Jeremy", "Lindsay"];
         families.push(fam1);
         families.push(fam2);
-        var undoable = calculateBody(families, Math.random);
+        var undoable = makematchesBody(families, Math.random);
         assert.equal(undoable, "Unable to make a match with this data.");
     });
 });
 
-describe('calculateBody', function() {
+describe('makematchesBody', function() {
     it('should be able to match 2 families with actual Math.random', function() {
 
         // Arrange
@@ -31,7 +31,7 @@ describe('calculateBody', function() {
         families.push(fam2);
 
         // Act
-        var fine = calculateBody(families, Math.random);
+        var fine = makematchesBody(families, Math.random);
 
         // Assert
         // This test is a tad complex since it uses actual Math.random
@@ -54,7 +54,7 @@ describe('calculateBody', function() {
     });
 });
 
-describe('calculateBody', function() {
+describe('makematchesBody', function() {
     it('should handle worst case randomization', function() {
 
         // Arrange
@@ -70,7 +70,7 @@ describe('calculateBody', function() {
         families.push(fam3);
 
         // Act
-        var fakeRand = calculateBody(families, myRandom);
+        var fakeRand = makematchesBody(families, myRandom);
 
         // Assert
         assert.equal(fakeRand, 'Adam -> Brett\nMary -> Lindsay\nJeremy -> Adam\nLindsay -> Mary\nBrett -> Jeremy\n');
