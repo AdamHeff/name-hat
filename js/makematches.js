@@ -25,6 +25,8 @@ function makematches(families) {
 // so many parameters to the functions that are called by makematchesBody.
 // todo: 2. continue to breakdown this function until it has fewer than 20 lines.
 // todo: 3. Update my comments to be in line with clean code principles.
+// todo: 4. Check the vertical ordering of this file so that functions that are called 
+// com after the caller.
 
 // The main body that will output a match if at all possible.
 function makematchesBody(families, randomFunc) {
