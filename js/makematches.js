@@ -27,6 +27,7 @@ function makematches(families) {
 // todo: 3. Update my comments to be in line with clean code principles.
 // todo: 4. Check the vertical ordering of this file so that functions that are called 
 // com after the caller.
+// todo: 5. Try running Lighthouse on this thing.
 
 // The main body that will output a match if at all possible.
 function makematchesBody(families, randomFunc) {
