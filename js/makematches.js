@@ -78,7 +78,6 @@ function MatchMaker(families, randomFunc) {
         self.families.forEach(function (family) {
             family.forEach(function (person) {
                 var giver = new Giver(person, family);
-                console.log("Hey, man");
                 self.givers.push(giver);
                 self.receivers.push(person);
             });
