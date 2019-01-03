@@ -1,9 +1,10 @@
-var makematchesBody = require('../js/makematches.js');
+var MatchMaker = require('../js/makematches.js');
 var assert = require('assert');
 
 describe('makematchesBody', function() {
     it('should return an empty string', function() {
-        var empty = makematchesBody(new Array(), Math.random);
+        var matchMaker = new MatchMaker(new Array(), Math.random);
+        var empty = matchMaker.makeMatchesBody();
         assert.equal(empty, "");
     });
 });
@@ -15,7 +16,8 @@ describe('makematchesBody', function() {
         var fam2 = ["Jeremy", "Lindsay"];
         families.push(fam1);
         families.push(fam2);
-        var undoable = makematchesBody(families, Math.random);
+        var matchMaker = new MatchMaker(families, Math.random);
+        var undoable = matchMaker.makeMatchesBody();
         assert.equal(undoable, "Unable to make a match with this data.");
     });
 });
@@ -31,7 +33,8 @@ describe('makematchesBody', function() {
         families.push(fam2);
 
         // Act
-        var fine = makematchesBody(families, Math.random);
+        var matchMaker = new MatchMaker(families, Math.random);
+        var fine = matchMaker.makeMatchesBody();
 
         // Assert
         // This test is a tad complex since it uses actual Math.random
@@ -70,7 +73,8 @@ describe('makematchesBody', function() {
         families.push(fam3);
 
         // Act
-        var fakeRand = makematchesBody(families, myRandom);
+        var matchMaker = new MatchMaker(families, myRandom);
+        var fakeRand = matchMaker.makeMatchesBody();
 
         // Assert
         assert.equal(fakeRand, 'Adam -> Brett\nMary -> Lindsay\nJeremy -> Adam\nLindsay -> Mary\nBrett -> Jeremy\n');
