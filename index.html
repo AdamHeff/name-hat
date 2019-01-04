@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Name Hat</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <p>Enter names from the same family on a single line, separated by a comma.</p>
     <p>Enter each family on its own line, separated by a carriage return.</p>
     <p>Each name must be unique.</p>
-
-    <textarea id="names" rows="10" cols="125">Adam, Mary&#13;&#10;Scott, Jenna&#13;&#10;Lindsay, Jeremy&#13;&#10;Ross&#13;&#10;Brett</textarea>
-    <br>
+    <div class="group">
+      <label for="names">Input</label>
+      <br/>
+      <textarea id="names" rows="10" cols="125">Adam, Mary&#13;&#10;Scott, Jenna&#13;&#10;Lindsay, Jeremy&#13;&#10;Ross&#13;&#10;Brett</textarea>
+    </div>
+    <br/>
     <button onclick="onclickCalculate()">Calculate</button>
-    <br>
-    <p>Results:</p>
-    <textarea id="matches" rows="20" cols="125"></textarea>
-        
+    <br/>
+    <div class="group">
+      <label for="matches">Results</label>
+      <br/>
+      <textarea id="matches" rows="20" cols="125"></textarea>
+    </div>
     <script type="text/javascript" src="js/makematches.js"></script>
 
     <script type="text/javascript">
