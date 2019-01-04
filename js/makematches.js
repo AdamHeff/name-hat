@@ -21,9 +21,6 @@ function makematches(families) {
     return matchMaker.makeMatchesBody();
 }
 
-// todo: 5. Try running Lighthouse on this thing.
-// todo: 6. See if there are any places where I could add explanitory variables.
-
 function MatchMaker(families, randomFunc) {
     this.families = families;
     this.randomFunc = randomFunc;
@@ -34,7 +31,6 @@ function MatchMaker(families, randomFunc) {
     this.makeMatchesBody = function() {
         self.initializeGiversAndReceivers();
 
-        // Go through the list, generate a random match.
         for(var outer=0; outer < self.givers.length; outer++) {
             var giver = self.givers[outer];
             var foundOne = self.findAReceiver(giver);
