@@ -53,17 +53,17 @@ function MatchMaker(families, randomFunc) {
     }
 
     this.findAReceiver = function (giver) {
-        var idx = Math.floor(self.randomFunc() * self.receivers.length);
+        var randomIndex = Math.floor(self.randomFunc() * self.receivers.length);
 
         for(var i=0; i < self.receivers.length; i++) {
-            if (giver.isOkReceiver(self.receivers[idx])) {
-                giver.receiverName = self.receivers[idx];
-                self.receivers.splice(idx, 1);
+            if (giver.isOkReceiver(self.receivers[randomIndex])) {
+                giver.receiverName = self.receivers[randomIndex];
+                self.receivers.splice(randomIndex, 1);
                 break;
             } else {
-                idx++;
-                if (idx >= self.receivers.length) {
-                    idx = 0;
+                randomIndex++;
+                if (randomIndex >= self.receivers.length) {
+                    randomIndex = 0;
                 }
                 if (i == self.receivers.length-1) {
 
