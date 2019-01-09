@@ -66,7 +66,8 @@ function MatchMaker(families, randomFunc) {
                     randomIndex = 0;
                 }
                 if (i == self.receivers.length-1) {
-
+                    // This is a rare case when the last person (or last family) pulls her own name (or someone in her family)
+                    // In real life we would have to start the game over, but in this case we can swap.
                     if(!self.swapReceiverWithSomeone(giver)) {
                         return false;
                     }
@@ -76,6 +77,7 @@ function MatchMaker(families, randomFunc) {
         return true;
     }
 
+    // The giver is stuck with a reciever that she can't give to. So we attempt to switch with someone who already has a reciever.
     this.swapReceiverWithSomeone = function(giver) {
         for(var i=0; i<self.givers.length; i++) {
             if(self.givers[i].isOkReceiver(self.receivers[0]) && giver.isOkReceiver(self.givers[i].receiverName)) {                            
