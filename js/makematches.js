@@ -16,6 +16,8 @@ function Giver(name, family) {
     }
 }
 
+// This function will attempt to match all people with a random non-family member and report the results
+// in the form of a string. If the input data cannot be matched, then it reports an error.
 function makematches(families) {
     var matchMaker = new MatchMaker(families, Math.random);
     return matchMaker.makeMatchesBody();
@@ -35,6 +37,7 @@ function MatchMaker(families, randomFunc) {
             var giver = self.givers[outer];
             var foundOne = self.findAReceiver(giver);
             if(!foundOne) {
+                // For example, the following data set can never be matched: family1: Adam, Mary; family2: Scott
                 return 'Unable to make a match with this data.'
             }
         }
