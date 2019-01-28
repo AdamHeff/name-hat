@@ -28,50 +28,50 @@ function MatchMaker(families, randomFunc) {
     this.randomFunc = randomFunc;
     this.givers = new Array();
     this.receivers = new Array();
-    var self = this;
+    var mainMatchMaker = this;
 
     this.makeMatchesBody = function() {
-        self.initializeGiversAndReceivers();
+        mainMatchMaker.initializeGiversAndReceivers();
 
-        for(var outer=0; outer < self.givers.length; outer++) {
-            var giver = self.givers[outer];
-            var foundOne = self.findAReceiver(giver);
+        for(var outer=0; outer < mainMatchMaker.givers.length; outer++) {
+            var giver = mainMatchMaker.givers[outer];
+            var foundOne = mainMatchMaker.findAReceiver(giver);
             if(!foundOne) {
                 // For example, the following data set can never be matched: family1: Adam, Mary; family2: Scott
                 return 'Unable to make a match with this data.'
             }
         }
     
-        return self.generateResponse();
+        return mainMatchMaker.generateResponse();
     }
 
     this.initializeGiversAndReceivers = function () {
-        self.families.forEach(function (family) {
+        mainMatchMaker.families.forEach(function (family) {
             family.forEach(function (person) {
                 var giver = new Giver(person, family);
-                self.givers.push(giver);
-                self.receivers.push(person);
+                mainMatchMaker.givers.push(giver);
+                mainMatchMaker.receivers.push(person);
             });
         });
     }
 
     this.findAReceiver = function (giver) {
-        var randomIndex = Math.floor(self.randomFunc() * self.receivers.length);
+        var randomIndex = Math.floor(mainMatchMaker.randomFunc() * mainMatchMaker.receivers.length);
 
-        for(var i=0; i < self.receivers.length; i++) {
-            if (giver.isOkReceiver(self.receivers[randomIndex])) {
-                giver.receiverName = self.receivers[randomIndex];
-                self.receivers.splice(randomIndex, 1);
+        for(var i=0; i < mainMatchMaker.receivers.length; i++) {
+            if (giver.isOkReceiver(mainMatchMaker.receivers[randomIndex])) {
+                giver.receiverName = mainMatchMaker.receivers[randomIndex];
+                mainMatchMaker.receivers.splice(randomIndex, 1);
                 break;
             } else {
                 randomIndex++;
-                if (randomIndex >= self.receivers.length) {
+                if (randomIndex >= mainMatchMaker.receivers.length) {
                     randomIndex = 0;
                 }
-                if (i == self.receivers.length-1) {
+                if (i == mainMatchMaker.receivers.length-1) {
                     // This is a rare case when the last person (or last family) pulls her own name (or someone in her family)
                     // In real life we would have to start the game over, but in this case we can swap.
-                    if(!self.swapReceiverWithSomeone(giver)) {
+                    if(!mainMatchMaker.swapReceiverWithSomeone(giver)) {
                         return false;
                     }
                 }
@@ -82,13 +82,13 @@ function MatchMaker(families, randomFunc) {
 
     // The giver is stuck with a reciever that she can't give to. So we attempt to switch with someone who already has a reciever.
     this.swapReceiverWithSomeone = function(giver) {
-        for(var i=0; i<self.givers.length; i++) {
-            if(self.givers[i].isOkReceiver(self.receivers[0]) && giver.isOkReceiver(self.givers[i].receiverName)) {                            
+        for(var i=0; i<mainMatchMaker.givers.length; i++) {
+            if(mainMatchMaker.givers[i].isOkReceiver(mainMatchMaker.receivers[0]) && giver.isOkReceiver(mainMatchMaker.givers[i].receiverName)) {                            
                 madeASwap = true;
-                let tempRecieverName = self.givers[i].receiverName;
-                self.givers[i].receiverName = self.receivers[0];
+                let tempRecieverName = mainMatchMaker.givers[i].receiverName;
+                mainMatchMaker.givers[i].receiverName = mainMatchMaker.receivers[0];
                 giver.receiverName = tempRecieverName;
-                self.receivers.splice(0, 1);
+                mainMatchMaker.receivers.splice(0, 1);
                 return true;
             }
         }
@@ -97,7 +97,7 @@ function MatchMaker(families, randomFunc) {
 
     this.generateResponse = function() {
         var response = '';
-        self.givers.forEach(function (giver) {
+        mainMatchMaker.givers.forEach(function (giver) {
             response += giver.name + " -> " + giver.receiverName + "\n";
         });
         return response;
