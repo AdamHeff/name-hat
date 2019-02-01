@@ -1,4 +1,11 @@
 .group {
     display: inline-block;
-    padding: 1em;
+    width: 98%;
+}
+textarea {
+    width: inherit;
+}
+button {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
