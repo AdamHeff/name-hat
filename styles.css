@@ -3,7 +3,7 @@
     width: 98%;
 }
 textarea {
-    width: 100%;
+    width: inherit;
 }
 button {
     margin-top: 1em;
