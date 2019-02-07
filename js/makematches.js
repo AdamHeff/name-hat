@@ -104,4 +104,7 @@ function MatchMaker(families, randomFunc) {
     }
 }
 
-module.exports = MatchMaker; // Not yet sure the best way to get Mocha to like a simple export.
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    // This is only needed for the Mocha tests. The above code prevents an error in browsers.
+    module.exports = MatchMaker;
+}
