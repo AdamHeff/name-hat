@@ -104,4 +104,4 @@ function MatchMaker(families, randomFunc) {
     }
 }
 
-module.exports = MatchMaker;
+module.exports = MatchMaker; // Not yet sure the best way to get Mocha to like a simple export.
