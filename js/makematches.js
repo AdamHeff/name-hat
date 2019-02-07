@@ -23,6 +23,7 @@ function makematches(families) {
     return matchMaker.makeMatchesBody();
 }
 
+// This version of the function is used for testing, so we can supply a predicatable random function.
 function MatchMaker(families, randomFunc) {
     this.families = families;
     this.randomFunc = randomFunc;
