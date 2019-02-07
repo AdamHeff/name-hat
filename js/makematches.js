@@ -1,3 +1,4 @@
+// This models a person giving to someone.
 function Giver(name, family) {
     this.name = name;
     this.family = family;
